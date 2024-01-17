@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='home_style.css')}}">
+    
+</head>
+<body>
+
+<div id="top-bar">
+    <h1>TMA Project 2   </h1>
+    
+   
+</div>
+
+<div id="dashboard">
+    <div id="menu">
+        <a href="{{url_for('start_sampling')}}" class="menu-button">Sampling</a> <!-- New menu item for Sampling -->
+        <a href="{{url_for('analyze_folder')}}" class="menu-button">Analise Sampling</a> 
+        <a href="{{url_for('connection_analysis')}}" class="menu-button">Track</a>
+        <a href="{{url_for('plotsMenu')}}" class="menu-button">MONITORING DATA</a>
+        <a href="{{url_for('analizerConf')}}" class="menu-button">ANALIZER CONFIGURATION</a>
+    </div>
+    <div id="content">
+        <!-- Aquí puedes agregar el contenido del dashboard -->
+        <h1>Monitoring Data</h1>
+        <form method="post" action="/plotsMenu/showPlots" onsubmit="showLoading()">
+            <div id="monitor_select">
+                <label for="plot_ip">Select data to process:</label>
+                <select id="plot_ip" name="plot_ip">
+                    {% for ip in monitor_files %}
+                        <option value="{{ ip }}" {% if ip == ips_default %}selected{% endif %}>
+                            {{ ip }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script>
+    function showLoading() {
+        // Display a simple loading alert
+        alert('Plotting... please wait for redirection');
+    }
+</script>
+
+</body>
+</html>

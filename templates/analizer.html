@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='home_style.css')}}">
+    
+</head>
+<body>
+
+<div id="top-bar">
+    <h1>TMA Project 2   </h1>
+    
+    <h1 id="title"> ANALIZER Configuration </h1>    
+   
+</div>
+
+
+<div id="dashboard">
+    <div id="menu">        
+        <a href="{{url_for('start_sampling')}}" class="menu-button">Sampling</a> <!-- New menu item for Sampling -->
+        <a href="{{url_for('analyze_folder')}}" class="menu-button">Analise Sampling</a> 
+        <a href="{{url_for('connection_analysis')}}" class="menu-button">Track</a>
+        <a href="{{url_for('plotsMenu')}}" class="menu-button">MONITORING DATA</a>
+        <a href="{{url_for('analizerConf')}}" class="menu-button">ANALIZER CONFIGURATION</a>
+    </div>
+    <div id="contentl">
+        <!-- Aquí puedes agregar el contenido del dashboard -->
+        <form method="post" action="/xx">
+            <label for="blockingMode">Select blocking mode:</label>
+            <select id="blockingMode" name="blockingMode">
+                <option value="manual">Manual</option>
+                <option value="auto">Auto</option>              
+            </select>
+            <button type="submit">Submit </button>
+            <div class="info-icon"  text='. By selecting Auto mode you enabling automatic blocking of the alerts detected'>&#9432;</div>
+        </form>
+        <br>
+        <form method="post" action="/show_ip_info">
+            <label for="ipInfo">Select IP to show options:</label>
+            <select id="ipInfo" name="ipInfo">              
+                {% for ip in ips %}
+                <option value="{{ ip }}" {% if ip == ips_default %}selected{% endif %}>{{ ip }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Submit</button>
+            {% if ip_info %}
+                <button type="submit" formaction="/show_ip_info/block_ip" name="block">Block</button>
+            {% endif %}
+        </form>
+        <br>
+        {% if ip_info %}
+            <div class="info-boxl">
+                <p>IP: {{ ip_info['IP'] }}</p>
+                <p>City: {{ ip_info['City'] }}</p>
+                <p>Region: {{ ip_info['Region'] }}</p>
+                <p>Country: {{ ip_info['Country'] }}</p>
+                <p>Location: {{ ip_info['Location'] }}</p>
+                <p>Host Name: {{ ip_info['Host Name'] }}</p>
+            </div>
+            
+        {% endif %}                 
+    </div>
+
+    <div id="contentr">
+        <!-- Aquí puedes agregar el contenido del dashboard -->
+        
+        <br>
+        <br>
+        <form method="post" action="/show_ip_info_blocked">
+            <label for="ipInfo_block">Select blocked IP to show options:</label>
+            <select id="ipInfo_block" name="ipInfo_block">              
+                {% for ip in ips_b %}
+                <option value="{{ ip }}" {% if ip == ips_default_b %}selected{% endif %}>{{ ip }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Submit</button>
+            {% if ip_info_block %}
+                <button type="submit" formaction="/show_ip_info/unblock_ip" name="unblock">Unblock</button>
+            {% endif %}
+        </form>
+        <br>
+        {% if ip_info_block %}
+            <div class="info-boxr">
+                <p>IP: {{ ip_info_block['IP'] }}</p>
+                <p>City: {{ ip_info_block['City'] }}</p>
+                <p>Region: {{ ip_info_block['Region'] }}</p>
+                <p>Country: {{ ip_info_block['Country'] }}</p>
+                <p>Location: {{ ip_info_block['Location'] }}</p>
+                <p>Host Name: {{ ip_info_block['Host Name'] }}</p>
+            </div>
+            
+        {% endif %}         
+        
+    </div>
+</div>
+
+</body>
+</html>

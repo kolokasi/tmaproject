@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='home_style.css')}}">
+    <style>
+        /* Define the grid layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px; /* Adjust the gap as needed */
+        }
+
+        /* Style for each grid item */
+        .grid-item {
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="top-bar">
+    <h1>TMA Project 2   </h1>
+   
+</div>
+
+<div id="dashboard">
+    <div id="menu">        
+        <a href="{{url_for('start_sampling')}}" class="menu-button">Sampling</a> <!-- New menu item for Sampling -->
+        <a href="{{url_for('analyze_folder')}}" class="menu-button">Analise Sampling</a> 
+        <a href="{{url_for('connection_analysis')}}" class="menu-button">Track</a>
+        <a href="{{url_for('plotsMenu')}}" class="menu-button">MONITORING DATA</a>
+        <a href="{{url_for('analizerConf')}}" class="menu-button">ANALIZER CONFIGURATION</a>
+    </div>
+    
+    <div id="content">
+        <!-- Aquí puedes agregar el contenido del dashboard -->
+        <h1>Plotting Data from {{ips}}</h1>
+        <a href="/showPlots", class="back-button">
+            <button>return</button>
+        </a>
+        {% for plot in plots %}
+        <img src="{{ url_for('get_image', image=plot)}}" alt="{{ plot }}">
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

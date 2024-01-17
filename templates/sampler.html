@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='home_style.css')}}">
+</head>
+<body>
+
+<div id="top-bar">
+    <h1>TMA Project 2</h1>
+</div>
+
+<div id="dashboard">
+    <div id="menu">        
+        <a href="{{url_for('start_sampling')}}" class="menu-button">Sampling</a> <!-- New menu item for Sampling -->
+        <a href="{{url_for('analyze_folder')}}" class="menu-button">Analise Sampling</a> 
+        <a href="{{url_for('connection_analysis')}}" class="menu-button">Track</a>
+        <a href="{{url_for('plotsMenu')}}" class="menu-button">MONITORING DATA</a>
+        <a href="{{url_for('analizerConf')}}" class="menu-button">ANALIZER CONFIGURATION</a>
+    </div>
+    <div id="content">
+        <h1>Welcome to the Dashboard</h1>
+        
+        {% if confirmation_message %}
+            <div id="confirmation-message">
+                <p>{{ confirmation_message }}</p>
+            </div>
+        {% endif %}
+
+        <p>Select an option from the menu to get started.</p>
+        
+        <!-- Sampling Configuration Form -->
+        <h2>Sampling Configuration</h2>
+        <form action="{{ url_for('start') }}" method="post">
+            <div>
+                <input type="radio" id="defaultSampling" name="samplingMode" value="default" checked>
+                <label for="defaultSampling">Default Sampling (5 packets per connection, 100 packets per file)</label>
+            </div>
+            <div>
+                <input type="radio" id="advancedSampling" name="samplingMode" value="advanced">
+                <label for="advancedSampling">Advanced Sampling</label>
+            </div>
+            
+            <div id="advancedOptions" style="display:none;">
+                <label for="packetsPerConnection">Packets per Connection:</label>
+                <input type="number" id="packetsPerConnection" name="packetsPerConnection" min="1" value="5">
+                
+                <label for="packetsPerFile">Packets per File:</label>
+                <input type="number" id="packetsPerFile" name="packetsPerFile" min="1" value="100">
+
+                <!-- Input for duration time in seconds -->
+                <label for="duration">Duration (seconds):</label>
+                <input type="number" id="duration" name="duration" min="1" value="60"> <!-- Default to 60 seconds -->
+            </div>
+
+            <button type="submit">Start Sampling</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // JavaScript to show/hide advanced options based on selection
+    document.addEventListener('DOMContentLoaded', function() {
+        var samplingModeRadios = document.getElementsByName('samplingMode');
+        var advancedOptions = document.getElementById('advancedOptions');
+        
+        for (var i = 0; i < samplingModeRadios.length; i++) {
+            samplingModeRadios[i].onclick = function() {
+                if (document.getElementById('advancedSampling').checked) {
+                    advancedOptions.style.display = 'block';
+                } else {
+                    advancedOptions.style.display = 'none';
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

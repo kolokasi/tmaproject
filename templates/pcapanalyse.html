@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='home_style.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="top-bar">
+    <h1>TMA Project 2</h1>
+    
+</div>
+
+<div id="dashboard">
+    <div id="menu">
+        <a href="{{url_for('start_sampling')}}" class="menu-button">Sampling</a> <!-- New menu item for Sampling -->
+        <a href="{{url_for('analyze_folder')}}" class="menu-button">Analise Sampling</a> 
+        <a href="{{url_for('connection_analysis')}}" class="menu-button">Track</a>
+        <a href="{{url_for('plotsMenu')}}" class="menu-button">MONITORING DATA</a>
+        <a href="{{url_for('analizerConf')}}" class="menu-button">ANALIZER CONFIGURATION</a>
+    </div>
+    <div id="content">
+        <h1>Welcome to the Dashboard</h1>
+        {% if confirmation_message %}
+            <div id="confirmation-message">
+                <p>{{ confirmation_message }}</p>
+            </div>
+        {% endif %}
+
+        <!-- Folder Selection Form -->
+        <h2>Folder Analysis</h2>
+        <form action="{{ url_for('analyze_folder') }}" method="post">
+            <label for="folderSelect">Select Folder:</label>
+            <select id="folderSelect" name="folder">
+                {% for folder in folders %}
+                <option value="{{ folder }}">{{ folder }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Analyze</button>
+        </form>
+
+        <!-- Display Logs -->
+        <div id="logDisplay">
+            <h3>Mining Connections</h3>
+            <pre id="minerLog">{{ miner_log | safe }}</pre>
+
+            <h3>Warning Connections</h3>
+            <pre id="warningLog">{{ warning_log | safe }}</pre>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript for additional functionalities
+</script>
+
+</body>
+</html>
